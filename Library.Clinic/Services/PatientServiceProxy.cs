@@ -1,10 +1,9 @@
-﻿using System;
+﻿using Library.Clinic.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Threading.Tasks;
-using Library.Clinic.Models;
 
 namespace Library.Clinic.Services
 {
@@ -15,7 +14,7 @@ namespace Library.Clinic.Services
         {
             get
             {
-                lock(_lock)
+                lock (_lock)
                 {
                     if (instance == null)
                     {
@@ -25,18 +24,19 @@ namespace Library.Clinic.Services
                 return instance;
             }
         }
+
         private static PatientServiceProxy? instance;
         private PatientServiceProxy()
         {
             instance = null;
 
+
             Patients = new List<Patient>
             {
-                new Patient {Id = 1, Name = "John Doe" }
-                , new Patient {Id = 2, Name = "John Doe" }
+                new Patient{Id = 1, Name = "John Doe"}
+                , new Patient{Id = 2, Name = "Jane Doe"}
             };
         }
-        
         public int LastKey
         {
             get
@@ -48,6 +48,7 @@ namespace Library.Clinic.Services
                 return 0;
             }
         }
+
         private List<Patient> patients;
         public List<Patient> Patients
         {
@@ -55,9 +56,10 @@ namespace Library.Clinic.Services
             {
                 return patients;
             }
+
             private set
             {
-                if (patients != null)
+                if (patients != value)
                 {
                     patients = value;
                 }
@@ -76,6 +78,7 @@ namespace Library.Clinic.Services
         public void DeletePatient(int id)
         {
             var patientToRemove = Patients.FirstOrDefault(p => p.Id == id);
+
             if (patientToRemove != null)
             {
                 Patients.Remove(patientToRemove);

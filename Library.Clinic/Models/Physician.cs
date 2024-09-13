@@ -9,7 +9,19 @@ namespace Library.Clinic.Models
     public class Physician
     {
         public int Id { get; set; }
-        public string Name { get; set; }
+        private string? name;
+        public string Name
+        {
+            get
+            {
+                return name ?? string.Empty;
+            }
+
+            set
+            {
+                name = value;
+            }
+        }
         public string LicenseNumber {  get; set; }
         public DateTime GraduationDate { get; set; }
         public string Specilizations { get; set; }

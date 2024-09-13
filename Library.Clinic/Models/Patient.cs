@@ -14,7 +14,20 @@ namespace Library.Clinic.Models
             return $"[{Id}] {Name}";
         }
         public int Id { get; set; }
-        public string Name { get; set; }
+
+        private string? name;
+        public string Name
+        {
+            get
+            {
+                return name ?? string.Empty;
+            }
+
+            set
+            {
+                name = value;
+            }
+        }
         public DateTime Birthday { get; set; }
         public string Address { get; set; }
         public string Race { get; set; }
