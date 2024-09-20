@@ -4,6 +4,7 @@ using System.ComponentModel;
 
 namespace App.Clinic.Views
 {
+    [QueryProperty(nameof(PatientId), "patientId")]
     public partial class PatientView : ContentPage
     {
         public PatientView()
@@ -16,17 +17,19 @@ namespace App.Clinic.Views
             Shell.Current.GoToAsync("//Patients");
         }
 
+        public int PatientId { get; set; }
+
         private void AddClicked(object sender, EventArgs e)
         {
             var patientToAdd= BindingContext as Patient;
             if (patientToAdd != null)
             {
-                PatientServiceProxy.Current.AddPatient(patientToAdd);
+                PatientServiceProxy.Current.AddOrUpdatePatient(patientToAdd);
             }
             Shell.Current.GoToAsync("//Patients");
             /* if (BindingContext is Patient)
             {
-                PatientServiceProxy.Current.AddPatient(BindingContext as Patient);   //samething but smaller code
+                PatientServiceProxy.Current.AddPatient(BindingContext as Patient);   //same thing but smaller code
             } 
             Shell.Current.GoToAsync("//Patients");
             */
@@ -34,7 +37,15 @@ namespace App.Clinic.Views
 
         private void PatientView_NavigatedTo(object sender, NavigatedToEventArgs e)
         {
-            BindingContext = new Patient();
+            //TODO: this really needs to be in a view model
+            if (PatientId > 0)
+            {
+                BindingContext = PatientServiceProxy.Current.Patients.FirstOrDefault(p => p.Id == PatientId);
+            }
+            else
+            {
+                BindingContext = new Patient();
+            }
         }
     }
 }

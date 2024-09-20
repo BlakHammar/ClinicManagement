@@ -20,6 +20,8 @@ namespace App.Clinic.ViewModels
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
+        public Patient? SelectedPatient { get; set; }
+
         public ObservableCollection<Patient> Patients
         {
             get
@@ -28,9 +30,20 @@ namespace App.Clinic.ViewModels
             }
         }
 
+        public void Delete()
+        {
+            if (SelectedPatient != null)
+            {
+                return;
+            }
+            PatientServiceProxy.Current.DeletePatient(SelectedPatient.Id);
+
+            Refresh();
+        }
+
         public void Refresh()
         {
-            NotifyPropertyChanged("Patients");
+            NotifyPropertyChanged(nameof(Patients));
         }
     }
 }

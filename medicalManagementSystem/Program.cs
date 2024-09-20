@@ -77,7 +77,7 @@ namespace MyApp
                                 Prescription = prescriptions ?? string.Empty
                             };
 
-                            PatientServiceProxy.Current.AddPatient(newPatient);
+                            PatientServiceProxy.Current.AddOrUpdatePatient(newPatient);
                             break;
 
 
