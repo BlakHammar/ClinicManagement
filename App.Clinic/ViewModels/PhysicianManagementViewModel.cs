@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace App.Clinic.ViewModels
 {
-    public class PatientManagementViewModel: INotifyPropertyChanged
+    public class PhysicianManagementViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -20,36 +20,35 @@ namespace App.Clinic.ViewModels
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        public PatientViewModel? SelectedPatient { get; set; }
-
-        public ObservableCollection<PatientViewModel> Patients
+        public PhysicianViewModel? SelectedPhysician { get; set; }
+        public ObservableCollection<PhysicianViewModel> Physicians
         {
             get
             {
-                return new ObservableCollection<PatientViewModel>(
-                    PatientServiceProxy
+                return new ObservableCollection<PhysicianViewModel>(
+                    PhysicianServiceProxy
                     .Current
-                    .Patients
+                    .Physicians
                     .Where(p => p != null)
-                    .Select(p => new PatientViewModel(p))
+                    .Select(p => new PhysicianViewModel(p))
                     );
             }
         }
 
         public void Delete()
         {
-            if (SelectedPatient == null)
+            if (SelectedPhysician == null)
             {
                 return;
             }
-            PatientServiceProxy.Current.DeletePatient(SelectedPatient.Id);
+            PhysicianServiceProxy.Current.DeletePhysician(SelectedPhysician.Id);
 
             Refresh();
         }
 
         public void Refresh()
         {
-            NotifyPropertyChanged(nameof(Patients));
+            NotifyPropertyChanged(nameof(Physicians));
         }
     }
 }

@@ -28,6 +28,12 @@ namespace Library.Clinic.Services
         private PhysicianServiceProxy()
         {
             instance = null;
+
+            Physicians = new List<Physician>
+            {
+                new Physician {Id = 1, Name = "Kobe Myers", LicenseNumber = "555", GraduationDate = new DateTime(2025, 01, 15), Specilizations = "N/A" }
+                , new Physician {Id = 2, Name = "Lucas Myers", LicenseNumber = "444", GraduationDate = new DateTime(2025, 01, 20), Specilizations = "N/A"}
+            };
         }
         public int LastKey
         {
@@ -40,15 +46,34 @@ namespace Library.Clinic.Services
                 return 0;
             }
         }
-        public List<Physician> Physicians { get; private set; } = new List<Physician>();
-
-        public void AddPhysician(Physician physician)
+        private List<Physician> physicians;
+        public List<Physician> Physicians
         {
+            get
+            {
+                return physicians;
+            }
+            private set
+            {
+                if (physicians != value)
+                {
+                    physicians = value;
+                }
+            }
+        }
+
+        public void AddOrUpdatePhysician(Physician physician)
+        {
+            bool isAdd = false;
             if (physician.Id <= 0)
             {
                 physician.Id = LastKey + 1;
+                isAdd = true;
             }
-            Physicians.Add(physician);
+            if (isAdd)
+            {
+                Physicians.Add(physician);
+            }
         }
 
         public void DeletePhysician(int id)
