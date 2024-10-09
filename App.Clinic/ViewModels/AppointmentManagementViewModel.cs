@@ -1,4 +1,5 @@
-﻿using Library.Clinic.Services;
+﻿using Library.Clinic.Models;
+using Library.Clinic.Services;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -30,6 +31,8 @@ namespace App.Clinic.ViewModels
                     .Current
                     .Appointments
                     .Where(p => p != null)
+                    .GroupBy(p => p.Id)  // Assuming AppointmentId is the unique identifier
+                    .Select(g => g.First())          // Select the first appointment in each group
                     .Select(p => new AppointmentViewModel(p))
                     );
             }
