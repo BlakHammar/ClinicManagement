@@ -7,6 +7,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace App.Clinic.ViewModels
 {
@@ -18,6 +19,10 @@ namespace App.Clinic.ViewModels
 
         public ObservableCollection<Patient> Patients { get; set; }
         public ObservableCollection<Physician> Physicians { get; set; }
+
+        public ICommand? DeleteCommand { get; set; }
+
+        public ICommand? EditCommand { get; set; }
 
         public Appointment? Model { get; set; }
         
@@ -74,12 +79,39 @@ namespace App.Clinic.ViewModels
                 }
             }
         }
+
+        public void SetupCommands()
+        {
+            DeleteCommand = new Command(DoDelete);
+            EditCommand = new Command((p) => DoEdit(p as AppointmentViewModel));
+        }
+        private void DoDelete()
+        {
+            if (Id > 0)
+            {
+                AppointmentServiceProxy.Current.DeleteAppointment(Id);
+                Shell.Current.GoToAsync("//Appointments");
+            }
+        }
+
+        private void DoEdit(AppointmentViewModel? avm)
+        {
+            if (avm == null)
+            {
+                return;
+            }
+            var selectedAppointmentId = avm?.Id ?? 0;
+
+            Shell.Current.GoToAsync($"//AppointmentDetails?appointmentId={selectedAppointmentId}");
+        }
+
         public AppointmentViewModel()
         {
             Model = new Appointment();
 
             Patients = new ObservableCollection<Patient>(PatientServiceProxy.Current.Patients);
             Physicians = new ObservableCollection<Physician>(PhysicianServiceProxy.Current.Physicians);
+            SetupCommands();
         }
 
         public AppointmentViewModel(Appointment? _model)
@@ -88,6 +120,7 @@ namespace App.Clinic.ViewModels
 
             Patients = new ObservableCollection<Patient>(PatientServiceProxy.Current.Patients);
             Physicians = new ObservableCollection<Physician>(PhysicianServiceProxy.Current.Physicians);
+            SetupCommands();
         }
 
         public void ExecuteAdd()

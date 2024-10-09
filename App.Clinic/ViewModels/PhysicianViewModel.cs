@@ -5,12 +5,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace App.Clinic.ViewModels
 {
     public class PhysicianViewModel
     {
         public Physician? Model { get; set; }
+
+        public ICommand? DeleteCommand { get; set; }
+
+        public ICommand? EditCommand { get; set; }
 
         public int Id
         {
@@ -80,15 +85,40 @@ namespace App.Clinic.ViewModels
                 }
             }
         }
+        public void SetupCommands()
+        {
+            DeleteCommand = new Command(DoDelete);
+            EditCommand = new Command((p) => DoEdit(p as PhysicianViewModel));
+        }
+        private void DoDelete()
+        {
+            if (Id > 0)
+            {
+                PhysicianServiceProxy.Current.DeletePhysician(Id);
+                Shell.Current.GoToAsync("//Physicians");
+            }
+        }
+        private void DoEdit(PhysicianViewModel? pvm)
+        {
+            if (pvm == null)
+            {
+                return;
+            }
+            var selectedPhysicianId = pvm?.Id ?? 0;
+
+            Shell.Current.GoToAsync($"//PhysicianDetails?physicianId={selectedPhysicianId}");
+        }
 
         public PhysicianViewModel()
         {
             Model = new Physician();
+            SetupCommands();
         }
 
         public PhysicianViewModel(Physician? _model)
         {
             Model = _model;
+            SetupCommands();
         }
 
         public void ExecuteAdd()
