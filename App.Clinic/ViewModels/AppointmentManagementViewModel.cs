@@ -1,5 +1,4 @@
-﻿using Library.Clinic.Models;
-using Library.Clinic.Services;
+﻿using Library.Clinic.Services;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -11,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace App.Clinic.ViewModels
 {
-    public class PatientManagementViewModel: INotifyPropertyChanged
+    class AppointmentManagementViewModel: INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -20,36 +19,37 @@ namespace App.Clinic.ViewModels
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        public PatientViewModel? SelectedPatient { get; set; }
+        public AppointmentViewModel? SelectedAppointment { get; set; }
 
-        public ObservableCollection<PatientViewModel> Patients
+        public ObservableCollection<AppointmentViewModel> Appointments
         {
             get
             {
-                return new ObservableCollection<PatientViewModel>(
-                    PatientServiceProxy
+                return new ObservableCollection<AppointmentViewModel>(
+                    AppointmentServiceProxy
                     .Current
-                    .Patients
+                    .Appointments
                     .Where(p => p != null)
-                    .Select(p => new PatientViewModel(p))
+                    .Select(p => new AppointmentViewModel(p))
                     );
             }
         }
 
         public void Delete()
         {
-            if (SelectedPatient == null)
+            if (SelectedAppointment == null)
             {
                 return;
             }
-            PatientServiceProxy.Current.DeletePatient(SelectedPatient.Id);
+            AppointmentServiceProxy.Current.DeleteAppointment(SelectedAppointment.Id);
 
             Refresh();
         }
 
         public void Refresh()
         {
-            NotifyPropertyChanged(nameof(Patients));
+            NotifyPropertyChanged(nameof(Appointments));
         }
     }
 }
+

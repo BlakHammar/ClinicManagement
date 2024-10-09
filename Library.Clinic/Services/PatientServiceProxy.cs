@@ -33,8 +33,12 @@ namespace Library.Clinic.Services
 
             Patients = new List<Patient>
             {
-                new Patient{Id = 1, Name = "John Doe"}
-                , new Patient{Id = 2, Name = "Jane Doe"}
+                new Patient{Id = 1, Name = "John Doe", Address = "808 watt dr", 
+                    Birthday = new DateTime(2000, 01, 05), Gender = "Male",
+                Race = "Black", Diagnoses = "N/A", Prescription = "N/A"}
+                , new Patient{Id = 2, Name = "Jane Doe", Address = "809 watt dr",
+                    Birthday = new DateTime(2000, 01, 05), Gender = "Female",
+                Race = "White", Diagnoses = "N/A", Prescription = "N/A"}
             };
         }
         public int LastKey
@@ -88,6 +92,10 @@ namespace Library.Clinic.Services
             {
                 Patients.Remove(patientToRemove);
             }
+        }
+        public Patient GetPatientById(int id)
+        {
+            return Patients.FirstOrDefault(p => p.Id == id);
         }
     }
 }

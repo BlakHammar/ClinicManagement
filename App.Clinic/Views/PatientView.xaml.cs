@@ -1,3 +1,4 @@
+using App.Clinic.ViewModels;
 using Library.Clinic.Models;
 using Library.Clinic.Services;
 using System.ComponentModel;
@@ -12,27 +13,16 @@ namespace App.Clinic.Views
             InitializeComponent();
         }
 
+        public int PatientId { get; set; }
+
         private void CancelClicked(object sender, EventArgs e)
         {
             Shell.Current.GoToAsync("//Patients");
         }
 
-        public int PatientId { get; set; }
-
         private void AddClicked(object sender, EventArgs e)
         {
-            var patientToAdd= BindingContext as Patient;
-            if (patientToAdd != null)
-            {
-                PatientServiceProxy.Current.AddOrUpdatePatient(patientToAdd);
-            }
-            Shell.Current.GoToAsync("//Patients");
-            /* if (BindingContext is Patient)
-            {
-                PatientServiceProxy.Current.AddPatient(BindingContext as Patient);   //same thing but smaller code
-            } 
-            Shell.Current.GoToAsync("//Patients");
-            */
+            (BindingContext as PatientViewModel)?.ExecuteAdd();
         }
 
         private void PatientView_NavigatedTo(object sender, NavigatedToEventArgs e)
@@ -40,12 +30,23 @@ namespace App.Clinic.Views
             //TODO: this really needs to be in a view model
             if (PatientId > 0)
             {
-                BindingContext = PatientServiceProxy.Current.Patients.FirstOrDefault(p => p.Id == PatientId);
+                var model = PatientServiceProxy.Current
+                    .Patients.FirstOrDefault(p => p.Id == PatientId);
+                if (model != null)
+                {
+                    BindingContext = new PatientViewModel(model);
+                }
+                else
+                {
+                    BindingContext = new PatientViewModel();
+                }
+
             }
             else
             {
-                BindingContext = new Patient();
+                BindingContext = new PatientViewModel();
             }
+
         }
     }
 }

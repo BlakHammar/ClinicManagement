@@ -3,7 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="App.Clinic.Views.PatientView"
              Title="PatientView"
-             NavigatedTo="PatientView_NavigatedTo">
+             NavigatedTo="PatientView_NavigatedTo"
+             >
     <VerticalStackLayout>
         <Grid>
             <Grid.ColumnDefinitions>
@@ -13,6 +14,54 @@
             <Label Grid.Column="0" Text="Name:"/>
             <Entry Grid.Column="1" Text="{Binding Name}"/>
         </Grid>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="10*"/>
+            </Grid.ColumnDefinitions>
+            <Label Grid.Column="0" Text="Address:"/>
+            <Entry Grid.Column="1" Text="{Binding Address}"/>
+        </Grid>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="10*"/>
+            </Grid.ColumnDefinitions>
+            <Label Grid.Column="0" Text="Birthday:"/>
+            <Entry Grid.Column="1" Text="{Binding Birthday}"/>
+        </Grid>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="10*"/>
+            </Grid.ColumnDefinitions>
+            <Label Grid.Column="0" Text="Race:"/>
+            <Entry Grid.Column="1" Text="{Binding Race}"/>
+        </Grid>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="10*"/>
+            </Grid.ColumnDefinitions>
+            <Label Grid.Column="0" Text="Gender:"/>
+            <Entry Grid.Column="1" Text="{Binding Gender}"/>
+        </Grid>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="10*"/>
+            </Grid.ColumnDefinitions>
+            <Label Grid.Column="0" Text="Diagnoses:"/>
+            <Entry Grid.Column="1" Text="{Binding Diagnoses}"/>
+        </Grid>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="10*"/>
+            </Grid.ColumnDefinitions>
+            <Label Grid.Column="0" Text="Prescription:"/>
+            <Entry Grid.Column="1" Text="{Binding Prescription}"/>
+        </Grid>
         <Button
             Text="Ok"
             Clicked="AddClicked"
@@ -21,6 +70,5 @@
             Text="Cancel"
             Clicked="CancelClicked"
             />
-
     </VerticalStackLayout>
 </ContentPage>

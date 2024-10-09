@@ -28,6 +28,15 @@ namespace Library.Clinic.Services
         private AppointmentServiceProxy()
         {
             instance = null;
+
+            var patient1 = PatientServiceProxy.Current.GetPatientById(1);
+            var patient2 = PatientServiceProxy.Current.GetPatientById(2);
+
+            Appointments = new List<Appointment>
+            {
+                new Appointment {Id = 1, AppointmentDate = new DateTime(2026, 07, 21), Patient = patient1}
+                , new Appointment {Id = 2, AppointmentDate = new DateTime(2026, 07, 22), Patient = patient2}
+            };
         }
         public int LastKey
         {
@@ -40,9 +49,23 @@ namespace Library.Clinic.Services
                 return 0;
             }
         }
-        public List<Appointment> Appointments { get; private set; } = new List<Appointment>();
+        private List<Appointment> appointments;
+        public List<Appointment> Appointments
+        {
+            get
+            {
+                return appointments;
+            }
+            private set
+            {
+                if (appointments != value)
+                {
+                    appointments = value;
+                }
+            }
+        }
 
-        public void AddAppointment(Appointment appointment)
+        public void AddOrUpdateAppointment(Appointment appointment)
         {
             if (appointment.Id <= 0)
             {
@@ -73,7 +96,15 @@ namespace Library.Clinic.Services
 
             return true; // Appointment is available
         }
+        public void DeleteAppointment(int id)
+        {
+            var appointmentToRemove = Appointments.FirstOrDefault(p => p.Id == id);
 
-        
+            if (appointmentToRemove != null)
+            {
+                Appointments.Remove(appointmentToRemove);
+            }
+        }
+
     }
 }

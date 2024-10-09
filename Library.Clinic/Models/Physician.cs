@@ -8,6 +8,18 @@ namespace Library.Clinic.Models
 {
     public class Physician
     {
+        public override string ToString()
+        {
+            return Display;
+        }
+
+        public string Display
+        {
+            get
+            {
+                return $"[{Id}] {Name}";
+            }
+        }
         public int Id { get; set; }
         private string? name;
         public string Name
@@ -25,11 +37,6 @@ namespace Library.Clinic.Models
         public string LicenseNumber {  get; set; }
         public DateTime GraduationDate { get; set; }
         public string Specilizations { get; set; }
-
-        public override string ToString()
-        {
-            return $"{Name}, Id: {Id}";
-        }
 
         public Physician() 
         {
