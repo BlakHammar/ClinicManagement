@@ -42,4 +42,8 @@ public partial class PatientManagement : ContentPage, INotifyPropertyChanged
             
     }
 
+    private void RefreshClicked(object sender, EventArgs e)
+    {
+        (BindingContext as PatientManagementViewModel)?.Refresh();
+    }
 }
