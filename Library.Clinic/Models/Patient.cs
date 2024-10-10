@@ -18,7 +18,7 @@ namespace Library.Clinic.Models
         {
             get
             {
-                return $"[{Id}] {Name}";
+                return $"{Name}";
             }
         }
         public int Id { get; set; }

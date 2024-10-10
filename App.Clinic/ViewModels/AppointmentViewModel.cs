@@ -25,6 +25,8 @@ namespace App.Clinic.ViewModels
         public ICommand? EditCommand { get; set; }
 
         public Appointment? Model { get; set; }
+
+        public Patient? pModel { get; set; }
         
         public int Id
         {
@@ -46,14 +48,47 @@ namespace App.Clinic.ViewModels
                 }
             }
         }
-        public DateTime AppointmentDate
+
+        public int PatientId 
         {
-            get => Model?.AppointmentDate ?? DateTime.MinValue;
+            get
+            {
+                if (pModel == null)
+                {
+                    return -1;
+                }
+
+                return pModel.Id;
+            }
+
+            set
+            {
+                if (pModel != null && pModel.Id != value)
+                {
+                    pModel.Id = value;
+                }
+            }
+        }
+        public DateTime StartTime
+        {
+            get => Model?.StartTime ?? DateTime.MinValue;
             set
             {
                 if (Model != null)
                 {
-                    Model.AppointmentDate = value;
+                    Model.StartTime = value;
+                }
+            }
+        }
+
+        public DateTime EndTime
+        {
+            get => Model?.EndTime ?? DateTime.MinValue;
+            set
+            {
+                if (Model != null)
+                {
+                    Model.EndTime = value;
                 }
             }
         }
