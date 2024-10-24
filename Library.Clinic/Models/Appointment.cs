@@ -10,18 +10,25 @@ namespace Library.Clinic.Models
     public class Appointment
     {
         public int Id { get; set; }
-        public DateTime AppointmentDate { get; set; }
+        public int PatientId { get; set; }
+
+        public int PhysicianId { get; set; }
+
+        public DateTime? StartTime { get; set; }
+        public DateTime? EndTime { get; set; }
+
         public Patient Patient { get; set; }
         public Physician Physician { get; set; }
 
         public override string ToString()
         {
-            return $"{AppointmentDate}, Patient: {Patient}, Physician: {Physician}";
+            return $"{StartTime}, Patient: {Patient}, Physician: {Physician}";
         }
 
         public Appointment() 
         {
-            AppointmentDate = DateTime.Now;
+            StartTime = DateTime.Now;
+            EndTime = DateTime.Now;
             Patient = new Patient();
             Physician = new Physician();
 

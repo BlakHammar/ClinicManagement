@@ -84,5 +84,10 @@ namespace Library.Clinic.Services
                 Physicians.Remove(PhysicianToRemove);
             }
         }
+
+        public Physician GetPhysicianById(int id)
+        {
+            return Physicians.FirstOrDefault(p => p.Id == id);
+        }
     }
 }

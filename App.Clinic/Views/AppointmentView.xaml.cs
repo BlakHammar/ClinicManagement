@@ -46,5 +46,10 @@ namespace App.Clinic.Views
                 BindingContext = new AppointmentViewModel();
             }
         }
+
+        private void TimePicker_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            (BindingContext as AppointmentViewModel)?.RefreshTime();
+        }
     }
 }

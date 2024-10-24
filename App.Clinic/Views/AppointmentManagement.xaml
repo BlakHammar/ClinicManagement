@@ -15,27 +15,35 @@
                     <ViewCell>
                         <Grid>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition/>
-                                <ColumnDefinition/>
-                                <ColumnDefinition/>
-                                <ColumnDefinition Width="10*"/>
+                                <ColumnDefinition Width="1.15*"/>
+                                <ColumnDefinition Width="1.15*"/>
+                                <ColumnDefinition Width="1.15*"/>
+                                <ColumnDefinition Width="1.15*"/>
+                                <ColumnDefinition Width="0.5*"/>
+                                <ColumnDefinition Width="0.5*"/>
+                                <ColumnDefinition Width="0.5*"/>
+                                <ColumnDefinition Width="1.5*"/>
                                 <ColumnDefinition/>
                                 <ColumnDefinition/>
                             </Grid.ColumnDefinitions>
-                            <Label FontAttributes="Bold" Grid.Column="0" Text="{Binding Id}"/>
-                            <Label Grid.Column="1" Text="{Binding AppointmentDate}"/>
-                            <Label Grid.Column="2" Text="{Binding Patient}"/>
-                            <Label Grid.Column="3" Text="{Binding Physician}"/>
-                            <Button Grid.Column="4" Text="Edit" Command="{Binding EditCommand}" CommandParameter="{Binding}"/>
-                            <Button Grid.Column="5" Text="Delete" Command="{Binding DeleteCommand}" Clicked="RefreshClicked"/>
+                            <Label FontAttributes="Bold" Grid.Column="0" Text="Apointment Start:"/>
+                            <Label Grid.Column="1" Text="{Binding StartTime}"/>
+                            <Label FontAttributes="Bold" Grid.Column="2" Text="Apointment End:"/>
+                            <Label Grid.Column="3" Text="{Binding EndTime}"/>
+                            <Label FontAttributes="Bold" Grid.Column="4" Text="Patient:"/>
+                            <Label Grid.Column="5" Text="{Binding Patient}"/>
+                            <Label FontAttributes="Bold" Grid.Column="6" Text="Physician:"/>
+                            <Label Grid.Column="7" Text="{Binding Physician}"/>
+                            <Button Grid.Column="8" Text="Edit" Command="{Binding EditCommand}" CommandParameter="{Binding}"/>
+                            <Button Grid.Column="9" Text="Delete" Command="{Binding DeleteCommand}" Clicked="RefreshClicked"/>
                         </Grid>
                     </ViewCell>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-        <Button Text="Add" Clicked="AddClicked"/>
-        <Button Text="Edit" Clicked="EditClicked"/>
-        <Button Text="Delete" Clicked="DeleteClicked"/>
-        <Button Text="Cancel" Clicked="CancelClicked" />
+        <Button Text="Schedule Appointment" Clicked="AddClicked"/>
+        <Button Text="Edit Appointment" Clicked="EditClicked"/>
+        <Button Text="Delete Appointment" Clicked="DeleteClicked"/>
+        <Button Text="Back" Clicked="CancelClicked" />
     </VerticalStackLayout>
 </ContentPage>
