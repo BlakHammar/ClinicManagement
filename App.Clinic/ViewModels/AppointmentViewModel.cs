@@ -13,12 +13,55 @@ namespace App.Clinic.ViewModels
 {
     class AppointmentViewModel
     {
-        private Patient selectedPatient;
         private Physician selectedPhysician;
         private DateTime appointmentDate;
 
-        public ObservableCollection<Patient> Patients { get; set; }
-        public ObservableCollection<Physician> Physicians { get; set; }
+        public Patient? SelectedPatient
+        {
+            get 
+            {
+                return Model?.Patient; 
+            }
+            set
+            {
+                var selectedPatient = value;
+                if (Model != null)
+                {
+                    Model.Patient = selectedPatient;
+                    Model.PatientId = selectedPatient?.Id ?? 0;
+                }
+            }
+        }
+        public Physician? SelectedPhysician
+        {
+            get
+            {
+                return Model?.Physician;
+            }
+            set
+            {
+                var selectedPhysician = value;
+                if (Model != null)
+                {
+                    Model.Physician = selectedPhysician;
+                    Model.PhysicianId = selectedPhysician?.Id ?? 0;
+                }
+            }
+        }
+        public ObservableCollection<Patient> Patients 
+        {
+            get
+            {
+                return new ObservableCollection<Patient>(PatientServiceProxy.Current.Patients);
+            }
+        }
+        public ObservableCollection<Physician> Physicians 
+        {
+            get
+            {
+                return new ObservableCollection<Physician>(PhysicianServiceProxy.Current.Physicians);
+            }
+        }
 
         public ICommand? DeleteCommand { get; set; }
 
@@ -53,45 +96,81 @@ namespace App.Clinic.ViewModels
         {
             get
             {
-                if (pModel == null)
+                if (Model == null)
                 {
                     return -1;
                 }
 
-                return pModel.Id;
+                return Model.PatientId;
             }
 
             set
             {
-                if (pModel != null && pModel.Id != value)
+                if (Model != null && Model.Patient.Id != value)
                 {
-                    pModel.Id = value;
+                    Model.PatientId = value;
                 }
             }
         }
-        public DateTime StartTime
+        public int PhysicianId
         {
-            get => Model?.StartTime ?? DateTime.MinValue;
+            get
+            {
+                if (Model == null)
+                {
+                    return -1;
+                }
+
+                return Model.PhysicianId;
+            }
+
+            set
+            {
+                if (Model != null && Model.Physician.Id != value)
+                {
+                    Model.PhysicianId = value;
+                }
+            }
+        }
+        public DateTime MinStartDate 
+        {  
+            get
+            {
+                return DateTime.Today;
+            }
+
+        }
+
+        public void RefreshTime()
+        {
+            if (Model != null)
+            {
+                if (Model.StartTime != null)
+                {
+                    Model.StartTime = StartDate;
+                    Model.StartTime = Model.StartTime.Value.Add(StartTime);
+                }
+            }
+        }
+        public DateTime StartDate 
+        { 
+            get
+            {
+                return Model?.StartTime?.Date ?? DateTime.Today;
+            }
             set
             {
                 if (Model != null)
                 {
                     Model.StartTime = value;
+                    RefreshTime();  
                 }
             }
         }
+        public TimeSpan StartTime { get; set; }
 
-        public DateTime EndTime
-        {
-            get => Model?.EndTime ?? DateTime.MinValue;
-            set
-            {
-                if (Model != null)
-                {
-                    Model.EndTime = value;
-                }
-            }
-        }
+        public DateTime EndDate { get; set; }
+        public TimeSpan EndTime { get; set; }
         public Patient Patient
         {
             get => Model?.Patient ?? new Patient();
@@ -144,8 +223,6 @@ namespace App.Clinic.ViewModels
         {
             Model = new Appointment();
 
-            Patients = new ObservableCollection<Patient>(PatientServiceProxy.Current.Patients);
-            Physicians = new ObservableCollection<Physician>(PhysicianServiceProxy.Current.Physicians);
             SetupCommands();
         }
 
@@ -153,8 +230,6 @@ namespace App.Clinic.ViewModels
         {
             Model = _model;
 
-            Patients = new ObservableCollection<Patient>(PatientServiceProxy.Current.Patients);
-            Physicians = new ObservableCollection<Physician>(PhysicianServiceProxy.Current.Physicians);
             SetupCommands();
         }
 

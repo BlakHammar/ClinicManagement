@@ -43,7 +43,7 @@ namespace Library.Clinic.Services
                     EndTime = new DateTime(2026, 07, 21, 8, 30, 00), Patient = patient2, Physician = physician2, PatientId = patient2.Id}
             };
         }
-        public int LastKey
+        private int lastKey
         {
             get
             {
@@ -72,19 +72,24 @@ namespace Library.Clinic.Services
 
         public void AddOrUpdateAppointment(Appointment appointment)
         {
+            var isAvail = false;
             if (appointment.Id <= 0)
             {
-                appointment.Id = LastKey + 1;
+                appointment.Id = lastKey + 1;
+                isAvail = IsAvailable(appointment);
             }
-            Appointments.Add(appointment);
+            if (isAvail)
+            {
+                Appointments.Add(appointment);
+            }
         }
 
         public bool IsAvailable(Appointment appointment)
         {
             // Check if the appointment time is within business hours (Monday to Friday, 8 AM to 5 PM)
-            if (appointment.StartTime.Hour < 8 || appointment.StartTime.Hour >= 17 ||
-                appointment.StartTime.DayOfWeek == DayOfWeek.Saturday ||
-                appointment.StartTime.DayOfWeek == DayOfWeek.Sunday)
+            if (appointment.StartTime.Value.Hour < 8 || appointment.StartTime.Value.Hour >= 17 ||
+                appointment.StartTime.Value.DayOfWeek == DayOfWeek.Saturday ||
+                appointment.StartTime.Value.DayOfWeek == DayOfWeek.Sunday)
             {
                 return false; // Not within business hours
             }

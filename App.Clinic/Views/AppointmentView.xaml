@@ -6,14 +6,9 @@
              NavigatedTo="AppointmentView_NavigatedTo"
              >
     <VerticalStackLayout>
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
-                <ColumnDefinition Width="10*"/>
-            </Grid.ColumnDefinitions>
-            <Label Grid.Column="0" Text="Date/Time:"/>
-            <Entry Grid.Column="1" Text="{Binding AppointmentDate, Mode=TwoWay}"/>
-        </Grid>
+        <Label Text="Date/Time:"/>
+        <DatePicker Date="{Binding StartDate}" MinimumDate="{Binding MinStartDate}"/>
+        <TimePicker Time="{Binding StartTime}" PropertyChanged="TimePicker_PropertyChanged"/>
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
