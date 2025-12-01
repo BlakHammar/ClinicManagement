@@ -3,8 +3,6 @@
 **Florida State University – COP4610 Operating Systems – Individual Project**  
 Multi-threaded clinic appointment and patient management system built in Java demonstrating process synchronization, thread safety, and resource scheduling under concurrent load.
 
-## Project Link: https://github.com/BlakHammar/ClinicManagement
-
 ## Overview
 Simulates a real-world clinic with multiple doctors, patients, and shared resources. Handles concurrent patient arrivals, examination room allocation, and record persistence while guaranteeing:
 - No race conditions or deadlocks
